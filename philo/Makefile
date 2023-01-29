@@ -4,7 +4,7 @@
 
 NAME    := philo
 INCLUDE := philo.h
-SOURCES := philo.c parse.c control.c
+SOURCES := philo.c parse.c control.c forks.c philosophers.c
 CFLAGS  := -Wall -Werror -Wextra -g
 
 .PHONY: all

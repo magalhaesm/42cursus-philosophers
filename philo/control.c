@@ -6,15 +6,15 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 12:28:32 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/01/29 12:49:44 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/01/29 16:47:55 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	set_control_data(t_ctrl *data);
+static void	set_common_data(t_ctrl *data);
 
-t_bool	init_control_data(int argc, char **argv)
+t_bool	init_common_data(int argc, char **argv)
 {
 	int		*args;
 	t_ctrl	data;
@@ -27,23 +27,28 @@ t_bool	init_control_data(int argc, char **argv)
 	data.time_to_eat = args[2];
 	data.time_to_sleep = args[3];
 	if (argc == 6)
-		data.meals = args[4];
-	set_control_data(&data);
+		data.must_eat = args[4];
+	set_common_data(&data);
 	free(args);
 	return (TRUE);
 }
 
-t_ctrl	*get_control_data(void)
+int	get_number_of_philos(void)
 {
-	static t_ctrl	shared_data;
-
-	return (&shared_data);
+	return (get_common_data()->n_philos);
 }
 
-static void	set_control_data(t_ctrl *data)
+t_ctrl	*get_common_data(void)
 {
-	t_ctrl	*shared_data;
+	static t_ctrl	common_data;
 
-	shared_data = get_control_data();
-	*shared_data = *data;
+	return (&common_data);
+}
+
+static void	set_common_data(t_ctrl *data)
+{
+	t_ctrl	*common_data;
+
+	common_data = get_common_data();
+	*common_data = *data;
 }
