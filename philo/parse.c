@@ -6,13 +6,31 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 09:42:26 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/01/29 10:27:54 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/01/29 12:33:25 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-static int	ft_isdigit(int c);
+#include "philo.h"
 
 #define CONVERTION_ERROR -1
+
+static int	ft_isdigit(int c);
+static int	*parse_int(int argc, char **argv);
+
+int	*parse(int argc, char **argv)
+{
+	int	*numbers;
+
+	if (argc < 5 || argc > 6)
+	{
+		printf("Invalid arguments\n");
+		return (NULL);
+	}
+	numbers = parse_int(argc, argv);
+	if (numbers == NULL)
+		printf("Invalid arguments\n");
+	return (numbers);
+}
 
 int	to_int(const char *number)
 {
@@ -34,6 +52,26 @@ int	to_int(const char *number)
 			return (CONVERTION_ERROR);
 	}
 	return (integer);
+}
+
+static int	*parse_int(int argc, char **argv)
+{
+	int	arg;
+	int	*numbers;
+
+	arg = 1;
+	numbers = malloc(sizeof(int) * argc - 1);
+	while (argv[arg])
+	{
+		numbers[arg - 1] = to_int(argv[arg]);
+		if (numbers[arg - 1] == CONVERTION_ERROR)
+		{
+			free(numbers);
+			return (NULL);
+		}
+		arg++;
+	}
+	return (numbers);
 }
 
 static int	ft_isdigit(int c)
