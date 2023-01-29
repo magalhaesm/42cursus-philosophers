@@ -1,10 +1,10 @@
 ################################################################################
-##                                PHILOSOPHERS                                   ##
+##                                PHILOSOPHERS                                ##
 ################################################################################
 
 NAME    := philo
 INCLUDE := philo.h
-SOURCES := philo.c
+SOURCES := philo.c parse.c
 CFLAGS  := -Wall -Werror -Wextra -g
 
 .PHONY: all
