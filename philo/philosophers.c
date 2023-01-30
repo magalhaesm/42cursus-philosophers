@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:34:39 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/01/29 16:42:06 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/01/30 14:40:08 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static t_bool	can_eat(t_philo *philo)
 	t_bool	left;
 	t_bool	right;
 
-	left = fork_available(philo->left_fork);
-	right = fork_available(philo->right_fork);
+	left = is_locked(philo->left_fork) == FALSE;
+	right = is_locked(philo->right_fork) == FALSE;
 	return (left && right);
 }

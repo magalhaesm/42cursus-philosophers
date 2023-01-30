@@ -6,30 +6,16 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 12:54:50 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/01/29 16:48:36 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/01/30 14:38:12 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-t_bool	fork_available(t_fork *fork)
-{
-	t_bool	available;
-
-	available = TRUE;
-	pthread_mutex_lock(&fork->mutex);
-	if (fork->in_use)
-		available = FALSE;
-	pthread_mutex_unlock(&fork->mutex);
-	return (available);
-}
-
 void	take_forks(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->left_fork->mutex);
-	pthread_mutex_lock(&philo->right_fork->mutex);
-	philo->left_fork->in_use = TRUE;
-	philo->right_fork->in_use = TRUE;
+	lock(philo->left_fork);
+	lock(philo->right_fork);
 	printf("%d has taken a fork\n", philo->id);
 	printf("%d has taken a fork\n", philo->id);
 	printf("%d is eating\n", philo->id);
@@ -37,10 +23,8 @@ void	take_forks(t_philo *philo)
 
 void	put_forks(t_philo *philo)
 {
-	philo->left_fork->in_use = FALSE;
-	philo->right_fork->in_use = FALSE;
-	pthread_mutex_unlock(&philo->left_fork->mutex);
-	pthread_mutex_unlock(&philo->right_fork->mutex);
+	unlock(philo->left_fork);
+	unlock(philo->right_fork);
 }
 
 t_fork	**arrange_forks(int philos)

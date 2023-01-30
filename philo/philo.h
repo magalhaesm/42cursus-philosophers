@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 15:35:03 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/01/29 16:47:52 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/01/30 14:49:50 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef struct s_ctrl {
 	int		time_to_eat;
 	int		time_to_sleep;
 	int		must_eat;
-	t_mutex	work_mutex;
 }	t_ctrl;
 
 typedef struct s_fork {
@@ -64,8 +63,14 @@ int		get_number_of_philos(void);
  * and NULL on error. */
 t_fork	**arrange_forks(int philos);
 
+/* Block a fork */
+void	lock(t_fork *fork);
+
+/* Unblock a fork */
+void	unlock(t_fork *fork);
+
 /* Check if a fork is available for use. */
-t_bool	fork_available(t_fork *fork);
+t_bool	is_locked(t_fork *fork);
 
 /* Take the left and right forks and make them unavailable to any
  * other philosopher. */
