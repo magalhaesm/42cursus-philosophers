@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 15:35:03 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/01/30 14:49:50 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/01/31 21:06:16 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,19 @@
 # include <stdlib.h>
 # include <pthread.h>
 # include <unistd.h>
+# include <string.h>
+# include <sys/time.h>
+
+# define DELAY 100
+# define BUFSIZE 1024
 
 typedef pthread_mutex_t	t_mutex;
+
+typedef enum e_state {
+	EATING,
+	SLEEPING,
+	THINKING,
+}	t_state;
 
 typedef enum e_bool {
 	FALSE,
@@ -26,6 +37,7 @@ typedef enum e_bool {
 }	t_bool;
 
 typedef struct s_ctrl {
+	long	start_time;
 	int		n_philos;
 	int		time_to_die;
 	int		time_to_eat;
@@ -42,6 +54,7 @@ typedef struct s_philo {
 	int		id;
 	t_fork	*left_fork;
 	t_fork	*right_fork;
+	t_mutex	lock;
 }	t_philo;
 
 /* Convert a numeric string to an integer. */
@@ -63,10 +76,10 @@ int		get_number_of_philos(void);
  * and NULL on error. */
 t_fork	**arrange_forks(int philos);
 
-/* Block a fork */
+/* Block a fork. */
 void	lock(t_fork *fork);
 
-/* Unblock a fork */
+/* Unblock a fork. */
 void	unlock(t_fork *fork);
 
 /* Check if a fork is available for use. */
@@ -82,7 +95,10 @@ void	put_forks(t_philo *philo);
 /* Deallocate memory from array of forks. */
 void	free_forks(t_fork **forks);
 
-/* Represent a philosopher who eats, thinks, sleeps and dies of starvation. */
-void	*philosopher(void *arg);
+void	eating(t_philo *philo);
+void	sleeping(t_philo *philo);
+void	thinking(t_philo *philo);
+void	log_state(t_state state, t_philo *philo);
+long	get_current_time(void);
 
 #endif

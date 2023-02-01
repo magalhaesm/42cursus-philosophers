@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.c                                     :+:      :+:    :+:   */
+/*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/29 16:34:39 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/01/30 14:40:08 by mdias-ma         ###   ########.fr       */
+/*   Created: 2023/01/30 15:30:30 by mdias-ma          #+#    #+#             */
+/*   Updated: 2023/01/31 21:02:38 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,27 @@
 
 static t_bool	can_eat(t_philo *philo);
 
-void	*philosopher(void *arg)
+void	eating(t_philo *philo)
 {
-	t_philo	*philo;
-	t_ctrl	*data;
-
-	data = get_common_data();
-	philo = arg;
 	while (can_eat(philo) == FALSE)
-		usleep(100);
+		usleep(DELAY);
 	take_forks(philo);
-	usleep(data->time_to_eat * 1000);
+	log_state(EATING, philo);
+	usleep(get_common_data()->time_to_eat * 1000);
 	put_forks(philo);
-	return (NULL);
+}
+
+void	sleeping(t_philo *philo)
+{
+	log_state(SLEEPING, philo);
+	usleep(get_common_data()->time_to_sleep * 1000);
+}
+
+void	thinking(t_philo *philo)
+{
+	log_state(THINKING, philo);
+	while (can_eat(philo) == FALSE)
+		usleep(DELAY);
 }
 
 static t_bool	can_eat(t_philo *philo)

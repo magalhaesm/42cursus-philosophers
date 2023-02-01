@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 12:28:32 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/01/30 14:13:43 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/01/31 13:45:12 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_bool	init_common_data(int argc, char **argv)
 	args = parse(argc, argv);
 	if (args == NULL)
 		return (FALSE);
+	data.start_time = get_current_time();
 	data.n_philos = args[0];
 	data.time_to_die = args[1];
 	data.time_to_eat = args[2];

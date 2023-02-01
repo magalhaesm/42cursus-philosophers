@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 17:06:41 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/01/30 14:04:29 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/01/31 21:06:54 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	*allocate_philosophers(int threads);
 static void	start_simulation(pthread_t *threads, t_fork **forks);
+static void	*philosopher(void *arg);
 
 int	main(int argc, char **argv)
 {
@@ -50,6 +51,7 @@ static void	start_simulation(pthread_t *threads, t_fork **forks)
 		dish[n].id = n + 1;
 		dish[n].left_fork = forks[n];
 		dish[n].right_fork = forks[(n + 1) % philos];
+		pthread_mutex_init(&dish[n].lock, NULL);
 		pthread_create(threads + n, NULL, philosopher, dish + n);
 		n++;
 	}
@@ -60,6 +62,18 @@ static void	start_simulation(pthread_t *threads, t_fork **forks)
 		n++;
 	}
 	free(dish);
+}
+
+/* Represent a philosopher who eats, thinks, sleeps and dies of starvation. */
+static void	*philosopher(void *arg)
+{
+	t_philo	*philo;
+
+	philo = arg;
+	eating(philo);
+	// sleeping(philo);
+	// thinking(philo);
+	return (NULL);
 }
 
 static void	*allocate_philosophers(int threads)

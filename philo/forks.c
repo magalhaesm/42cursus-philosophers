@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 12:54:50 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/01/30 14:38:12 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/01/31 20:48:14 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 void	take_forks(t_philo *philo)
 {
+	while (is_locked(philo->left_fork))
+		usleep(DELAY);
 	lock(philo->left_fork);
+	while (is_locked(philo->right_fork))
+		usleep(DELAY);
 	lock(philo->right_fork);
-	printf("%d has taken a fork\n", philo->id);
-	printf("%d has taken a fork\n", philo->id);
-	printf("%d is eating\n", philo->id);
 }
 
 void	put_forks(t_philo *philo)
