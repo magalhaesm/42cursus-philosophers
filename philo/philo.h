@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 15:35:03 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/01/31 21:17:28 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/01 13:14:55 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ typedef struct s_philo {
 	int		id;
 	t_fork	*left_fork;
 	t_fork	*right_fork;
-	t_mutex	lock;
 }	t_philo;
 
 /* Convert a numeric string to an integer. */
@@ -100,6 +99,5 @@ void	sleeping(t_philo *philo);
 void	thinking(t_philo *philo);
 void	log_state(t_state state, t_philo *philo);
 long	get_current_time(void);
-size_t	ft_strlen(const char *str);
 
 #endif

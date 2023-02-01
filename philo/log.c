@@ -6,40 +6,44 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 15:23:35 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/01/31 21:24:54 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/01 13:11:39 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-char	*ft_itoa(long n);
+#define FORK "%05ld %d has taken a fork\n"
+#define EAT "%05ld %d is eating\n"
+#define SLEEP "%05ld %d is sleeping\n"
+#define THINK "%05ld %d is thinking\n"
+
 long	get_elapsed_time(long start);
-void	bufwrite(char *elapsed, char *id, char *msg, char *buffer);
 
 void	log_state(t_state state, t_philo *philo)
 {
-	char	*id;
+	int		id;
 	long	start;
-	char	*elapsed;
-	char	buffer[BUFSIZE];
+	long	elapsed;
+	char	*message;
 
-	memset(buffer, 0, BUFSIZE);
-	id = ft_itoa(philo->id);
+	id = philo->id;
 	start = get_common_data()->start_time;
-	elapsed = ft_itoa(get_elapsed_time(start));
+	elapsed = get_elapsed_time(start);
 	if (state == EATING)
 	{
-		bufwrite(elapsed, id, " has taken a fork\n", buffer);
-		bufwrite(elapsed, id, " has taken a fork\n", buffer);
-		bufwrite(elapsed, id, " is eating\n", buffer);
+		message = FORK FORK EAT;
+		printf(message, elapsed, id, elapsed, id, elapsed, id);
 	}
 	else if (state == SLEEPING)
-		bufwrite(elapsed, id, " is sleeping\n", buffer);
+	{
+		message = SLEEP;
+		printf(message, elapsed, id);
+	}
 	else if (state == THINKING)
-		bufwrite(elapsed, id, " is thinking\n", buffer);
-	write(STDOUT_FILENO, buffer, ft_strlen(buffer));
-	free(elapsed);
-	free(id);
+	{
+		message = THINK;
+		printf(message, elapsed, id);
+	}
 }
 
 long	get_current_time(void)

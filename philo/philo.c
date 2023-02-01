@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 17:06:41 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/01/31 21:20:06 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/01 13:15:25 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static void	start_simulation(pthread_t *threads, t_fork **forks)
 		dish[n].id = n + 1;
 		dish[n].left_fork = forks[n];
 		dish[n].right_fork = forks[(n + 1) % philos];
-		pthread_mutex_init(&dish[n].lock, NULL);
 		pthread_create(threads + n, NULL, philosopher, dish + n);
 		n++;
 	}
