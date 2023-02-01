@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 15:35:03 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/01 13:14:55 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/01 13:40:47 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <sys/time.h>
 
 # define DELAY 100
-# define BUFSIZE 1024
 
 typedef pthread_mutex_t	t_mutex;
 
@@ -43,6 +42,7 @@ typedef struct s_ctrl {
 	int		time_to_eat;
 	int		time_to_sleep;
 	int		must_eat;
+	t_mutex	log;
 }	t_ctrl;
 
 typedef struct s_fork {

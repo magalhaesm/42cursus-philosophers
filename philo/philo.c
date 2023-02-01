@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 17:06:41 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/01 13:15:25 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/01 13:38:35 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,7 @@ static void	start_simulation(pthread_t *threads, t_fork **forks)
 	}
 	n = 0;
 	while (n < philos)
-	{
-		pthread_join(threads[n], NULL);
-		n++;
-	}
+		pthread_join(threads[n++], NULL);
 	free(dish);
 }
 

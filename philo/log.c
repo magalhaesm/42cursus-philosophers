@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 15:23:35 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/01 13:11:39 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/01 13:31:53 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	log_state(t_state state, t_philo *philo)
 	id = philo->id;
 	start = get_common_data()->start_time;
 	elapsed = get_elapsed_time(start);
+	pthread_mutex_lock(&get_common_data()->log);
 	if (state == EATING)
 	{
 		message = FORK FORK EAT;
@@ -44,6 +45,7 @@ void	log_state(t_state state, t_philo *philo)
 		message = THINK;
 		printf(message, elapsed, id);
 	}
+	pthread_mutex_unlock(&get_common_data()->log);
 }
 
 long	get_current_time(void)
