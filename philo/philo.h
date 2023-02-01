@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 15:35:03 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/01/31 21:06:16 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/01/31 21:17:28 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,6 @@ void	sleeping(t_philo *philo);
 void	thinking(t_philo *philo);
 void	log_state(t_state state, t_philo *philo);
 long	get_current_time(void);
+size_t	ft_strlen(const char *str);
 
 #endif

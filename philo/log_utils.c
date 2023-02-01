@@ -6,16 +6,14 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:14 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/01/31 20:41:27 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/01/31 21:17:26 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	digits(unsigned int n);
-char	*ft_itoa(long n);
-size_t	ft_strlcat(char *dst, const char *src, size_t size);
-size_t	ft_strlen(const char *str);
+static int		digits(unsigned int n);
+static size_t	ft_strlcat(char *dst, const char *src, size_t size);
 
 void	bufwrite(char *elapsed, char *id, char *msg, char *buffer)
 {
@@ -56,14 +54,14 @@ char	*ft_itoa(long n)
 	return (str);
 }
 
-int	digits(unsigned int n)
+static int	digits(unsigned int n)
 {
 	if (n < 10)
 		return (1);
 	return (digits(n / 10) + 1);
 }
 
-size_t	ft_strlcat(char *dst, const char *src, size_t size)
+static size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
 	size_t	i;
 	size_t	dstlen;
