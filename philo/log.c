@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 15:23:35 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/01 13:31:53 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/02 08:41:12 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,36 +16,30 @@
 #define EAT "%05ld %d is eating\n"
 #define SLEEP "%05ld %d is sleeping\n"
 #define THINK "%05ld %d is thinking\n"
+#define DEAD "%05ld %d died\n"
 
 long	get_elapsed_time(long start);
 
-void	log_state(t_state state, t_philo *philo)
+long	log_state(t_state state, t_philo *philo)
 {
 	int		id;
 	long	start;
 	long	elapsed;
-	char	*message;
 
 	id = philo->id;
-	start = get_common_data()->start_time;
+	start = philo->common->start_time;
 	elapsed = get_elapsed_time(start);
-	pthread_mutex_lock(&get_common_data()->log);
+	pthread_mutex_lock(&philo->common->log);
 	if (state == EATING)
-	{
-		message = FORK FORK EAT;
-		printf(message, elapsed, id, elapsed, id, elapsed, id);
-	}
+		printf(FORK FORK EAT, elapsed, id, elapsed, id, elapsed, id);
 	else if (state == SLEEPING)
-	{
-		message = SLEEP;
-		printf(message, elapsed, id);
-	}
+		printf(SLEEP, elapsed, id);
 	else if (state == THINKING)
-	{
-		message = THINK;
-		printf(message, elapsed, id);
-	}
-	pthread_mutex_unlock(&get_common_data()->log);
+		printf(THINK, elapsed, id);
+	else if (state == DIED)
+		printf(DEAD, elapsed, id);
+	pthread_mutex_unlock(&philo->common->log);
+	return (elapsed);
 }
 
 long	get_current_time(void)
@@ -58,8 +52,5 @@ long	get_current_time(void)
 
 long	get_elapsed_time(long start)
 {
-	long int	ms_now;
-
-	ms_now = get_current_time();
-	return (ms_now - start);
+	return (get_current_time() - start);
 }
