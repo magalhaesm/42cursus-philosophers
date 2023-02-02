@@ -4,8 +4,7 @@
 
 NAME    := philo
 INCLUDE := philo.h
-SOURCES := philo.c parse.c control.c forks.c locks.c
-SOURCES += actions.c log.c
+SOURCES := philo.c parse.c control.c forks.c locks.c actions.c log.c monitor.c
 CFLAGS  := -Wall -Werror -Wextra -g
 
 .PHONY: all
@@ -16,7 +15,7 @@ $(NAME): $(SOURCES) $(INCLUDE)
 
 .PHONY: check
 check: all
-	valgrind --tool=helgrind ./$(NAME) 10 800 200 200
+	valgrind --tool=helgrind ./$(NAME) 4 310 200 100
 
 .PHONY: clean
 clean:

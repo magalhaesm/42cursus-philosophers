@@ -6,19 +6,17 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 15:23:35 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/02 08:41:12 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/02 08:48:04 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 #define FORK "%05ld %d has taken a fork\n"
-#define EAT "%05ld %d is eating\n"
-#define SLEEP "%05ld %d is sleeping\n"
-#define THINK "%05ld %d is thinking\n"
+#define EATING "%05ld %d is eating\n"
+#define SLEEPING "%05ld %d is sleeping\n"
+#define THINKING "%05ld %d is thinking\n"
 #define DEAD "%05ld %d died\n"
-
-long	get_elapsed_time(long start);
 
 long	log_state(t_state state, t_philo *philo)
 {
@@ -30,13 +28,13 @@ long	log_state(t_state state, t_philo *philo)
 	start = philo->common->start_time;
 	elapsed = get_elapsed_time(start);
 	pthread_mutex_lock(&philo->common->log);
-	if (state == EATING)
-		printf(FORK FORK EAT, elapsed, id, elapsed, id, elapsed, id);
-	else if (state == SLEEPING)
-		printf(SLEEP, elapsed, id);
-	else if (state == THINKING)
-		printf(THINK, elapsed, id);
-	else if (state == DIED)
+	if (state == EAT)
+		printf(FORK FORK EATING, elapsed, id, elapsed, id, elapsed, id);
+	else if (state == SLEEP)
+		printf(SLEEPING, elapsed, id);
+	else if (state == THINK)
+		printf(THINKING, elapsed, id);
+	else if (state == DEATH)
 		printf(DEAD, elapsed, id);
 	pthread_mutex_unlock(&philo->common->log);
 	return (elapsed);
