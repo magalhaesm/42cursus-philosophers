@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 17:06:41 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/02 13:49:30 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/02 15:22:00 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,14 @@ static void	start_simulation(pthread_t *threads, t_fork **forks)
 static void	*philosopher(void *place)
 {
 	t_philo	*philo;
+	int		must_eat;
 
 	philo = place;
+	must_eat = philo->common->must_eat;
 	while (check_dead(philo) == FALSE)
 	{
 		eating(philo);
-		if (philo->meals == philo->common->must_eat)
+		if (philo->meals == must_eat)
 			return (NULL);
 		sleeping(philo);
 		thinking(philo);
