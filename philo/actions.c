@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 15:30:30 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/01/31 21:02:38 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/02 13:30:39 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,38 @@ static t_bool	can_eat(t_philo *philo);
 void	eating(t_philo *philo)
 {
 	while (can_eat(philo) == FALSE)
+	{
+		if (stop_monitor(philo))
+			return ;
 		usleep(DELAY);
-	take_forks(philo);
-	log_state(EATING, philo);
-	usleep(get_common_data()->time_to_eat * 1000);
+	}
+	if (take_forks(philo) == FALSE)
+		return ;
+	philo->meals++;
+	philo->last_meal = log_state(EAT, philo);
+	usleep(philo->common->time_to_eat * 1000);
 	put_forks(philo);
 }
 
 void	sleeping(t_philo *philo)
 {
-	log_state(SLEEPING, philo);
-	usleep(get_common_data()->time_to_sleep * 1000);
+	if (stop_monitor(philo))
+		return ;
+	log_state(SLEEP, philo);
+	usleep(philo->common->time_to_sleep * 1000);
 }
 
 void	thinking(t_philo *philo)
 {
-	log_state(THINKING, philo);
+	if (stop_monitor(philo))
+		return ;
+	log_state(THINK, philo);
 	while (can_eat(philo) == FALSE)
+	{
+		if (stop_monitor(philo))
+			return ;
 		usleep(DELAY);
+	}
 }
 
 static t_bool	can_eat(t_philo *philo)

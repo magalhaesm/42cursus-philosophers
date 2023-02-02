@@ -6,20 +6,35 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 12:54:50 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/01/31 20:48:14 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/02 12:55:07 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	take_forks(t_philo *philo)
+t_bool	take_forks(t_philo *philo)
 {
+	if (philo->left_fork == philo->right_fork)
+	{
+		usleep(philo->common->time_to_die * 1000);
+		if (stop_monitor(philo))
+			return (FALSE);
+	}
 	while (is_locked(philo->left_fork))
+	{
+		if (stop_monitor(philo))
+			return (FALSE);
 		usleep(DELAY);
+	}
 	lock(philo->left_fork);
 	while (is_locked(philo->right_fork))
+	{
+		if (stop_monitor(philo))
+			return (FALSE);
 		usleep(DELAY);
+	}
 	lock(philo->right_fork);
+	return (TRUE);
 }
 
 void	put_forks(t_philo *philo)
