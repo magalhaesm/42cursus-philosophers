@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 15:35:03 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/06 11:21:35 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/06 14:15:01 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@
 typedef pthread_mutex_t	t_mutex;
 
 typedef enum e_state {
-	EAT,
-	SLEEP,
-	THINK,
-	ALONE,
-	DEATH
+	TAKE_FORK,
+	EATING,
+	SLEEPING,
+	THINKING,
+	DEAD
 }	t_state;
 
 typedef enum e_bool {
@@ -38,16 +38,18 @@ typedef enum e_bool {
 }	t_bool;
 
 typedef struct s_ctrl {
-	long		start_time;
-	int			n_philos;
-	int			time_to_die;
-	int			time_to_eat;
-	int			time_to_sleep;
-	int			must_eat;
-	t_bool		death;
-	t_mutex		notify;
-	t_mutex		log;
-	t_mutex		eat;
+	long	start_time;
+	int		n_philos;
+	int		time_to_die;
+	int		time_to_eat;
+	int		time_to_sleep;
+	int		must_eat;
+	int		stuffed;
+	t_bool	death;
+	t_mutex	notify;
+	t_mutex	log;
+	t_mutex	eat;
+	t_mutex	full;
 }	t_ctrl;
 
 typedef struct s_fork {
@@ -70,7 +72,6 @@ int		to_int(const char *number);
 int		*parse(int argc, char **argv);
 
 /* Parse input and populate common data structure. */
-// t_bool	init_common_data(int argc, char **argv);
 t_bool	init_common_data(int argc, char **argv, t_ctrl *common);
 
 /* Create and initialize a mutex per fork. Return an array of forks on success,

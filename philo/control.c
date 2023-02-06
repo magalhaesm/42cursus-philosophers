@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 12:28:32 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/06 11:48:14 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/06 14:08:53 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@ t_bool	init_common_data(int argc, char **argv, t_ctrl *common)
 	common->time_to_sleep = args[3];
 	common->death = FALSE;
 	common->must_eat = -1;
+	common->stuffed = 0;
 	if (argc == 6)
 		common->must_eat = args[4];
 	pthread_mutex_init(&common->log, NULL);
 	pthread_mutex_init(&common->notify, NULL);
 	pthread_mutex_init(&common->eat, NULL);
+	pthread_mutex_init(&common->full, NULL);
 	free(args);
 	return (TRUE);
 }

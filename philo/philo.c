@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 17:06:41 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/06 11:48:18 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/06 14:18:22 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	main(int argc, char **argv)
 	return (EXIT_FAILURE);
 }
 
-// TODO: receber place
 static void	start_simulation(t_ctrl *common, t_fork **forks)
 {
 	int			n;
@@ -67,14 +66,19 @@ static void	*philosopher(void *place)
 	philo = place;
 	if (philo->common->n_philos == 1)
 	{
-		state_log(ALONE, philo);
+		state_log(TAKE_FORK, philo);
 		mssleep(philo->common->time_to_die);
-		state_log(DEATH, philo);
+		state_log(DEAD, philo);
 		return (NULL);
 	}
 	while (check_dead(philo) == FALSE)
 	{
 		eating(philo);
+		if (philo->meals == philo->common->must_eat)
+		{
+			philo->common->stuffed++;
+			return (NULL);
+		}
 		sleeping(philo);
 		thinking(philo);
 	}
