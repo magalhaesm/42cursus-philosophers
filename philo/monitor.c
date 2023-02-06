@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 11:32:27 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/02 14:08:57 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/06 11:53:05 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,43 @@
 static t_bool	starved(t_philo *philo);
 static void		notify_death(t_philo *philo);
 
-t_bool	stop_monitor(t_philo *philo)
+void	*stop_monitor(void *arg)
 {
-	if (starved(philo))
+	int		index;
+	t_ctrl	*common;
+	t_philo	*philos;
+
+	index = 0;
+	philos = *(t_philo **)arg;
+	common = philos[0].common;
+	while (index < common->n_philos)
 	{
-		notify_death(philo);
-		return (TRUE);
+		if (starved(&philos[index]))
+		{
+			notify_death(&philos[index]);
+			return (NULL);
+		}
+		index++;
+		if (index + 1 == common->n_philos)
+			index = 0;
+		mssleep(1);
 	}
-	if (check_dead(philo))
-		return (TRUE);
-	return (FALSE);
+	return (NULL);
 }
 
 t_bool	check_dead(t_philo *philo)
 {
-	t_bool	death;
 	t_ctrl	*common;
 
-	death = FALSE;
 	common = philo->common;
 	pthread_mutex_lock(&common->notify);
 	if (common->death)
-		death = TRUE;
+	{
+		pthread_mutex_unlock(&common->notify);
+		return (TRUE);
+	}
 	pthread_mutex_unlock(&common->notify);
-	return (death);
+	return (FALSE);
 }
 
 static void	notify_death(t_philo *philo)
@@ -50,15 +63,19 @@ static void	notify_death(t_philo *philo)
 	if (common->death == FALSE)
 	{
 		philo->common->death = TRUE;
-		log_state(DEATH, philo);
 	}
 	pthread_mutex_unlock(&common->notify);
+	state_log(DEATH, philo);
 }
 
 static t_bool	starved(t_philo *philo)
 {
-	long	last_meal;
+	int		last_meal;
+	t_ctrl	*common;
 
-	last_meal = get_elapsed_time(philo->common->start_time + philo->last_meal);
-	return (last_meal >= philo->common->time_to_die);
+	common = philo->common;
+	pthread_mutex_lock(&common->eat);
+	last_meal = get_current_time() - philo->last_meal;
+	pthread_mutex_unlock(&common->eat);
+	return (last_meal > common->time_to_die);
 }

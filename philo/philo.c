@@ -6,85 +6,77 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 17:06:41 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/02 15:22:00 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/06 11:48:18 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 static void	*philosopher(void *arg);
-static void	*allocate_philosophers(int threads);
-static void	start_simulation(pthread_t *threads, t_fork **forks);
+static void	start_simulation(t_ctrl *common, t_fork **forks);
 
 int	main(int argc, char **argv)
 {
-	int			threads;
-	t_fork		**forks;
-	pthread_t	*philosophers;
+	t_fork	**forks;
+	t_ctrl	common;
 
-	if (init_common_data(argc, argv) == FALSE)
+	if (init_common_data(argc, argv, &common) == FALSE)
 		return (EXIT_FAILURE);
-	threads = get_number_of_philos();
-	philosophers = allocate_philosophers(threads);
-	forks = arrange_forks(threads);
-	if (philosophers && forks)
+	forks = init_forks(common.n_philos);
+	if (forks)
 	{
-		start_simulation(philosophers, forks);
-		free(philosophers);
+		start_simulation(&common, forks);
 		free_forks(forks);
 		return (EXIT_SUCCESS);
 	}
 	return (EXIT_FAILURE);
 }
 
-static void	start_simulation(pthread_t *threads, t_fork **forks)
+// TODO: receber place
+static void	start_simulation(t_ctrl *common, t_fork **forks)
 {
-	int		n;
-	int		philos;
-	t_philo	*place;
-	t_ctrl	*common;
+	int			n;
+	pthread_t	monitor;
+	int			philos;
+	t_philo		*place;
+	pthread_t	*threads;
 
-	common = get_common_data();
 	philos = common->n_philos;
-	place = malloc(philos * sizeof(t_philo));
+	threads = malloc(philos * sizeof(pthread_t));
+	place = init_philosophers(common, forks);
 	n = 0;
 	while (n < philos)
 	{
-		place[n].id = n + 1;
-		place[n].left_fork = forks[n];
-		place[n].right_fork = forks[(n + 1) % philos];
-		place[n].meals = 0;
-		place[n].last_meal = 0;
-		place[n].common = common;
 		pthread_create(threads + n, NULL, philosopher, place + n);
 		n++;
 	}
+	pthread_create(&monitor, NULL, stop_monitor, &place);
 	n = 0;
 	while (n < philos)
 		pthread_join(threads[n++], NULL);
+	pthread_join(monitor, NULL);
 	free(place);
+	free(threads);
 }
 
 /* Represent a philosopher who eats, thinks, sleeps and dies of starvation. */
 static void	*philosopher(void *place)
 {
 	t_philo	*philo;
-	int		must_eat;
 
 	philo = place;
-	must_eat = philo->common->must_eat;
+	if (philo->common->n_philos == 1)
+	{
+		state_log(ALONE, philo);
+		mssleep(philo->common->time_to_die);
+		state_log(DEATH, philo);
+		return (NULL);
+	}
 	while (check_dead(philo) == FALSE)
 	{
 		eating(philo);
-		if (philo->meals == must_eat)
-			return (NULL);
 		sleeping(philo);
 		thinking(philo);
 	}
 	return (NULL);
-}
-
-static void	*allocate_philosophers(int threads)
-{
-	return (malloc(threads * sizeof(pthread_t)));
 }

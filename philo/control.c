@@ -6,54 +6,85 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 12:28:32 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/02 13:05:17 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/06 11:48:14 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	set_common_data(t_ctrl *data);
-
-t_bool	init_common_data(int argc, char **argv)
+t_bool	init_common_data(int argc, char **argv, t_ctrl *common)
 {
-	int		*args;
-	t_ctrl	data;
+	int	*args;
 
 	args = parse(argc, argv);
 	if (args == NULL)
 		return (FALSE);
-	data.start_time = get_current_time();
-	data.n_philos = args[0];
-	data.time_to_die = args[1];
-	data.time_to_eat = args[2];
-	data.time_to_sleep = args[3];
-	data.death = FALSE;
-	data.must_eat = -1;
+	common->start_time = get_current_time();
+	common->n_philos = args[0];
+	common->time_to_die = args[1];
+	common->time_to_eat = args[2];
+	common->time_to_sleep = args[3];
+	common->death = FALSE;
+	common->must_eat = -1;
 	if (argc == 6)
-		data.must_eat = args[4];
-	pthread_mutex_init(&data.log, NULL);
-	pthread_mutex_init(&data.notify, NULL);
-	set_common_data(&data);
+		common->must_eat = args[4];
+	pthread_mutex_init(&common->log, NULL);
+	pthread_mutex_init(&common->notify, NULL);
+	pthread_mutex_init(&common->eat, NULL);
 	free(args);
 	return (TRUE);
 }
 
-int	get_number_of_philos(void)
+t_fork	**init_forks(int philos)
 {
-	return (get_common_data()->n_philos);
+	t_fork	**forks;
+
+	forks = malloc((philos + 1) * sizeof(t_fork *));
+	if (forks == NULL)
+		return (NULL);
+	forks[philos] = NULL;
+	while (--philos >= 0)
+	{
+		forks[philos] = malloc(sizeof(t_fork));
+		pthread_mutex_init(&forks[philos]->mutex, NULL);
+	}
+	return (forks);
 }
 
-t_ctrl	*get_common_data(void)
+t_philo	*init_philosophers(t_ctrl *common, t_fork **forks)
 {
-	static t_ctrl	common_data;
+	int		n;
+	t_philo	*place;
+	int		philos;
 
-	return (&common_data);
+	philos = common->n_philos;
+	place = malloc(philos * sizeof(t_philo));
+	if (place == NULL)
+		return (NULL);
+	n = 0;
+	while (n < philos)
+	{
+		place[n].id = n + 1;
+		place[n].meals = 0;
+		place[n].last_meal = common->start_time;
+		place[n].common = common;
+		place[n].first_fork = forks[min(n, (n + 1) % philos)];
+		place[n].second_fork = forks[max(n, (n + 1) % philos)];
+		n++;
+	}
+	return (place);
 }
 
-static void	set_common_data(t_ctrl *data)
+void	free_forks(t_fork **forks)
 {
-	t_ctrl	*common_data;
+	int	n;
 
-	common_data = get_common_data();
-	*common_data = *data;
+	n = 0;
+	while (forks[n])
+	{
+		pthread_mutex_destroy(&forks[n]->mutex);
+		free(forks[n]);
+		n++;
+	}
+	free(forks);
 }
