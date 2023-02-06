@@ -6,35 +6,25 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 15:30:30 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/06 14:17:29 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/06 19:47:27 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	mssleep(long ms_time)
-{
-	long	start;
+#define DELAY 100
 
-	start = get_current_time();
-	while (ms_time > get_current_time() - start)
-		usleep(DELAY);
-	return (0);
-}
-
-t_bool	eating(t_philo *philo)
+void	eating(t_philo *philo)
 {
 	long	last;
 
-	if (check_dead(philo))
-		return (FALSE);
 	pthread_mutex_lock(&philo->first_fork->mutex);
 	pthread_mutex_lock(&philo->second_fork->mutex);
-	if (check_dead(philo))
+	if (philo->common->death)
 	{
 		pthread_mutex_unlock(&philo->first_fork->mutex);
 		pthread_mutex_unlock(&philo->second_fork->mutex);
-		return (FALSE);
+		return ;
 	}
 	philo->meals++;
 	last = state_log(EATING, philo);
@@ -44,22 +34,31 @@ t_bool	eating(t_philo *philo)
 	mssleep(philo->common->time_to_eat);
 	pthread_mutex_unlock(&philo->first_fork->mutex);
 	pthread_mutex_unlock(&philo->second_fork->mutex);
-	return (TRUE);
+	return ;
 }
 
-t_bool	sleeping(t_philo *philo)
+void	sleeping(t_philo *philo)
 {
 	if (check_dead(philo))
-		return (FALSE);
+		return ;
 	state_log(SLEEPING, philo);
 	mssleep(philo->common->time_to_sleep);
-	return (TRUE);
+	return ;
 }
 
-t_bool	thinking(t_philo *philo)
+void	thinking(t_philo *philo)
 {
 	if (check_dead(philo))
-		return (FALSE);
+		return ;
 	state_log(THINKING, philo);
-	return (TRUE);
+	return ;
+}
+
+void	mssleep(long ms_time)
+{
+	long	start;
+
+	start = get_current_time();
+	while (ms_time > get_current_time() - start)
+		usleep(DELAY);
 }

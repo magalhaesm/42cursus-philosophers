@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 11:32:27 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/06 14:14:10 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/06 20:28:36 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,8 @@ void	*stop_monitor(void *arg)
 			return (NULL);
 		}
 		index++;
-		if (index + 1 == common->n_philos)
-			index = 0;
-		mssleep(1);
+		index %= common->n_philos;
+		usleep(1000);
 	}
 	return (NULL);
 }

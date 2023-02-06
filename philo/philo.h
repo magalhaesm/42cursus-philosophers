@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 15:35:03 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/06 14:15:01 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/06 19:12:30 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 # include <unistd.h>
 # include <string.h>
 # include <sys/time.h>
-
-# define DELAY 10
 
 typedef pthread_mutex_t	t_mutex;
 
@@ -82,14 +80,14 @@ t_fork	**init_forks(int philos);
 void	free_forks(t_fork **forks);
 
 t_philo	*init_philosophers(t_ctrl *common, t_fork **forks);
-t_bool	eating(t_philo *philo);
-t_bool	thinking(t_philo *philo);
-t_bool	sleeping(t_philo *philo);
+void	eating(t_philo *philo);
+void	thinking(t_philo *philo);
+void	sleeping(t_philo *philo);
+t_bool	check_dead(t_philo *philo);
 long	state_log(t_state state, t_philo *philo);
 long	get_current_time(void);
-t_bool	check_dead(t_philo *philo);
 void	*stop_monitor(void *arg);
-int		mssleep(long ms);
+void	mssleep(long ms_time);
 int		min(int a, int b);
 int		max(int a, int b);
 

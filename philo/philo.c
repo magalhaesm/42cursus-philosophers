@@ -6,13 +6,14 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 17:06:41 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/06 14:18:22 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/06 18:54:27 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 static void	*philosopher(void *arg);
+static void	*set_stuffed(t_ctrl *common);
 static void	start_simulation(t_ctrl *common, t_fork **forks);
 
 int	main(int argc, char **argv)
@@ -62,25 +63,31 @@ static void	start_simulation(t_ctrl *common, t_fork **forks)
 static void	*philosopher(void *place)
 {
 	t_philo	*philo;
+	t_ctrl	*common;
 
 	philo = place;
-	if (philo->common->n_philos == 1)
+	common = philo->common;
+	if (common->n_philos == 1)
 	{
 		state_log(TAKE_FORK, philo);
-		mssleep(philo->common->time_to_die);
-		state_log(DEAD, philo);
+		mssleep(common->time_to_die);
 		return (NULL);
 	}
 	while (check_dead(philo) == FALSE)
 	{
 		eating(philo);
-		if (philo->meals == philo->common->must_eat)
-		{
-			philo->common->stuffed++;
-			return (NULL);
-		}
+		if (philo->meals == common->must_eat)
+			return (set_stuffed(common));
 		sleeping(philo);
 		thinking(philo);
 	}
+	return (NULL);
+}
+
+void	*set_stuffed(t_ctrl *common)
+{
+	pthread_mutex_lock(&common->full);
+	common->stuffed++;
+	pthread_mutex_unlock(&common->full);
 	return (NULL);
 }
