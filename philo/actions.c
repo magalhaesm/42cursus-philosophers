@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 15:30:30 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/06 19:47:27 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/07 14:10:50 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	eating(t_philo *philo)
 
 	pthread_mutex_lock(&philo->first_fork->mutex);
 	pthread_mutex_lock(&philo->second_fork->mutex);
-	if (philo->common->death)
+	if (check_dead(philo))
 	{
 		pthread_mutex_unlock(&philo->first_fork->mutex);
 		pthread_mutex_unlock(&philo->second_fork->mutex);

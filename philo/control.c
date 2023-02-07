@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 12:28:32 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/06 14:08:53 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/07 14:11:53 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ t_philo	*init_philosophers(t_ctrl *common, t_fork **forks)
 	{
 		place[n].id = n + 1;
 		place[n].meals = 0;
+		place[n].done = FALSE;
 		place[n].last_meal = common->start_time;
 		place[n].common = common;
 		place[n].first_fork = forks[min(n, (n + 1) % philos)];

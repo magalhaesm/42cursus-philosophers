@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 11:32:27 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/06 20:28:36 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/07 14:34:41 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,21 @@ void	*stop_monitor(void *arg)
 	t_ctrl	*common;
 	t_philo	*philos;
 
-	index = 0;
 	philos = *(t_philo **)arg;
 	common = philos[0].common;
-	while (index < common->n_philos)
+	while (all_stuffed(common) == FALSE)
 	{
-		if (all_stuffed(common))
-			return (NULL);
-		if (starved(&philos[index]))
+		index = 0;
+		while (index < common->n_philos)
 		{
-			notify_death(&philos[index]);
-			return (NULL);
+			if (starved(&philos[index]))
+			{
+				notify_death(&philos[index]);
+				return (NULL);
+			}
+			index++;
 		}
-		index++;
-		index %= common->n_philos;
-		usleep(1000);
+		usleep(3000);
 	}
 	return (NULL);
 }
@@ -77,7 +77,7 @@ static t_bool	starved(t_philo *philo)
 	pthread_mutex_lock(&common->eat);
 	last_meal = get_current_time() - philo->last_meal;
 	pthread_mutex_unlock(&common->eat);
-	return (last_meal > common->time_to_die);
+	return (last_meal > common->time_to_die && philo->done == FALSE);
 }
 
 static t_bool	all_stuffed(t_ctrl *common)

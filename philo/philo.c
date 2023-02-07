@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 17:06:41 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/06 18:54:27 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/07 14:15:03 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,17 @@ static void	*philosopher(void *place)
 	{
 		eating(philo);
 		if (philo->meals == common->must_eat)
+		{
+			philo->done = TRUE;
 			return (set_stuffed(common));
+		}
 		sleeping(philo);
 		thinking(philo);
 	}
 	return (NULL);
 }
 
-void	*set_stuffed(t_ctrl *common)
+static void	*set_stuffed(t_ctrl *common)
 {
 	pthread_mutex_lock(&common->full);
 	common->stuffed++;
