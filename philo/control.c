@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 12:28:32 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/07 14:11:53 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/07 18:22:31 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ t_fork	**init_forks(int philos)
 t_philo	*init_philosophers(t_ctrl *common, t_fork **forks)
 {
 	int		n;
-	t_philo	*place;
 	int		philos;
+	t_philo	*place;
 
 	philos = common->n_philos;
 	place = malloc(philos * sizeof(t_philo));

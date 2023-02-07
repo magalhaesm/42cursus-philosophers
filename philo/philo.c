@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 17:06:41 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/07 14:15:03 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/07 18:44:22 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,40 @@
 
 static void	*philosopher(void *arg);
 static void	*set_stuffed(t_ctrl *common);
-static void	start_simulation(t_ctrl *common, t_fork **forks);
+static void	start_simulation(t_ctrl *common, t_philo *place);
 
 int	main(int argc, char **argv)
 {
-	t_fork	**forks;
 	t_ctrl	common;
+	t_fork	**forks;
+	t_philo	*philos;
 
-	if (init_common_data(argc, argv, &common) == FALSE)
+	if (!init_common_data(argc, argv, &common))
 		return (EXIT_FAILURE);
 	forks = init_forks(common.n_philos);
-	if (forks)
+	if (!forks)
+		return (EXIT_FAILURE);
+	philos = init_philosophers(&common, forks);
+	if (philos)
 	{
-		start_simulation(&common, forks);
-		free_forks(forks);
-		return (EXIT_SUCCESS);
+		start_simulation(&common, philos);
+		free(philos);
 	}
-	return (EXIT_FAILURE);
+	free_forks(forks);
+	return (common.death);
 }
 
-static void	start_simulation(t_ctrl *common, t_fork **forks)
+static void	start_simulation(t_ctrl *common, t_philo *place)
 {
 	int			n;
-	pthread_t	monitor;
 	int			philos;
-	t_philo		*place;
+	pthread_t	monitor;
 	pthread_t	*threads;
 
 	philos = common->n_philos;
 	threads = malloc(philos * sizeof(pthread_t));
-	place = init_philosophers(common, forks);
+	if (!threads)
+		return ;
 	n = 0;
 	while (n < philos)
 	{
@@ -55,7 +59,6 @@ static void	start_simulation(t_ctrl *common, t_fork **forks)
 	while (n < philos)
 		pthread_join(threads[n++], NULL);
 	pthread_join(monitor, NULL);
-	free(place);
 	free(threads);
 }
 
