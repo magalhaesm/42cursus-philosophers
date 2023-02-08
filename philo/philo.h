@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 15:35:03 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/07 18:46:54 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/08 19:42:03 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,22 +64,10 @@ typedef struct s_philo {
 	t_bool	done;
 }	t_philo;
 
-/* Convert a numeric string to an integer. */
-int		to_int(const char *number);
-
-/* Parse arguments. Return an array of integers on success, otherwise NULL. */
 int		*parse(int argc, char **argv);
-
-/* Parse input and populate common data structure. */
 t_bool	init_common_data(int argc, char **argv, t_ctrl *common);
-
-/* Create and initialize a mutex per fork. Return an array of forks on success,
- * and NULL on error. */
 t_fork	**init_forks(int philos);
-
-/* Deallocate memory from array of forks. */
 void	free_forks(t_fork **forks);
-
 t_philo	*init_philosophers(t_ctrl *common, t_fork **forks);
 void	eating(t_philo *philo);
 void	thinking(t_philo *philo);
