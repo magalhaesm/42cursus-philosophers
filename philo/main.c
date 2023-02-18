@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 17:06:41 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/08 00:27:38 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/17 14:13:45 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,11 @@ static void	*philosopher(void *place)
 		mssleep(common->time_to_die);
 		return (NULL);
 	}
-	while (check_dead(philo) == FALSE)
+	while (stop_dinner(philo) == FALSE)
 	{
 		eating(philo);
 		if (philo->meals == common->must_eat)
-		{
-			philo->done = TRUE;
 			return (set_stuffed(common));
-		}
 		sleeping(philo);
 		thinking(philo);
 	}

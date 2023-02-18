@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 15:35:03 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/08 19:42:03 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/17 19:50:10 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ typedef struct s_philo {
 	t_fork	*first_fork;
 	t_fork	*second_fork;
 	t_ctrl	*common;
-	t_bool	done;
 }	t_philo;
 
 int		*parse(int argc, char **argv);
@@ -72,7 +71,7 @@ t_philo	*init_philosophers(t_ctrl *common, t_fork **forks);
 void	eating(t_philo *philo);
 void	thinking(t_philo *philo);
 void	sleeping(t_philo *philo);
-t_bool	check_dead(t_philo *philo);
+t_bool	stop_dinner(t_philo *philo);
 long	state_log(t_state state, t_philo *philo);
 long	get_current_time(void);
 void	*stop_monitor(void *arg);

@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 11:32:27 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/07 14:34:41 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/17 14:16:14 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	*stop_monitor(void *arg)
 	return (NULL);
 }
 
-t_bool	check_dead(t_philo *philo)
+t_bool	stop_dinner(t_philo *philo)
 {
 	t_ctrl	*common;
 
@@ -62,8 +62,7 @@ static void	notify_death(t_philo *philo)
 
 	common = philo->common;
 	pthread_mutex_lock(&common->notify);
-	if (common->death == FALSE)
-		philo->common->death = TRUE;
+	philo->common->death = TRUE;
 	pthread_mutex_unlock(&common->notify);
 	state_log(DEAD, philo);
 }
@@ -77,7 +76,7 @@ static t_bool	starved(t_philo *philo)
 	pthread_mutex_lock(&common->eat);
 	last_meal = get_current_time() - philo->last_meal;
 	pthread_mutex_unlock(&common->eat);
-	return (last_meal > common->time_to_die && philo->done == FALSE);
+	return (last_meal > common->time_to_die);
 }
 
 static t_bool	all_stuffed(t_ctrl *common)

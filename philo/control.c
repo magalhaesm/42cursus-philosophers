@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 12:28:32 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/07 18:22:31 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/17 19:50:12 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ t_bool	init_common_data(int argc, char **argv, t_ctrl *common)
 	common->time_to_eat = args[2];
 	common->time_to_sleep = args[3];
 	common->death = FALSE;
-	common->must_eat = -1;
 	common->stuffed = 0;
+	common->must_eat = -1;
 	if (argc == 6)
 		common->must_eat = args[4];
 	pthread_mutex_init(&common->log, NULL);
@@ -68,7 +68,6 @@ t_philo	*init_philosophers(t_ctrl *common, t_fork **forks)
 	{
 		place[n].id = n + 1;
 		place[n].meals = 0;
-		place[n].done = FALSE;
 		place[n].last_meal = common->start_time;
 		place[n].common = common;
 		place[n].first_fork = forks[min(n, (n + 1) % philos)];
