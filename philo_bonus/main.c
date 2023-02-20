@@ -6,13 +6,13 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:41:38 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/20 10:08:57 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/20 10:39:04 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-#define CHILD 0
+#define CHILD_PID 0
 
 static void	philosopher(t_philo *philo);
 static void	start_dinner(t_philo *philos, t_ctrl *common);
@@ -47,7 +47,7 @@ void	start_dinner(t_philo *philos, t_ctrl *common)
 	while (n < common->n_philos)
 	{
 		philos[n].pid = fork();
-		if (philos[n].pid == CHILD)
+		if (philos[n].pid == CHILD_PID)
 		{
 			pthread_create(&philos[n].tid, NULL, stop_monitor, philos + n);
 			philosopher(philos + n);
