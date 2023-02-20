@@ -6,12 +6,13 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 15:23:35 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/20 10:40:32 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/20 10:47:13 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+#define DELAY 100
 #define FORK "%5ld %2d has taken a fork\n"
 #define EAT "%5ld %2d is eating\n"
 #define SLEEP "%5ld %2d is sleeping\n"
@@ -48,6 +49,15 @@ size_t	get_current_time(void)
 
 	gettimeofday(&tp, NULL);
 	return ((tp.tv_sec * 1000) + (tp.tv_usec / 1000));
+}
+
+void	mssleep(size_t ms_time)
+{
+	size_t	start;
+
+	start = get_current_time();
+	while (ms_time > get_current_time() - start)
+		usleep(DELAY);
 }
 
 int	min(int a, int b)
