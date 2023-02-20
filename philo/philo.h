@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 15:35:03 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/17 19:50:10 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/18 16:09:18 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef enum e_bool {
 }	t_bool;
 
 typedef struct s_ctrl {
-	long	start_time;
+	size_t	start_time;
 	int		n_philos;
 	int		time_to_die;
 	int		time_to_eat;
@@ -57,7 +57,7 @@ typedef struct s_fork {
 typedef struct s_philo {
 	int		id;
 	int		meals;
-	long	last_meal;
+	size_t	last_meal;
 	t_fork	*first_fork;
 	t_fork	*second_fork;
 	t_ctrl	*common;
@@ -72,10 +72,10 @@ void	eating(t_philo *philo);
 void	thinking(t_philo *philo);
 void	sleeping(t_philo *philo);
 t_bool	stop_dinner(t_philo *philo);
-long	state_log(t_state state, t_philo *philo);
-long	get_current_time(void);
+size_t	state_log(t_state state, t_philo *philo);
+size_t	get_current_time(void);
 void	*stop_monitor(void *arg);
-void	mssleep(long ms_time);
+void	mssleep(size_t ms_time);
 int		min(int a, int b);
 int		max(int a, int b);
 

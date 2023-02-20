@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 15:23:35 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/17 14:01:17 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/20 10:40:32 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@
 #define THINK "%5ld %2d is thinking\n"
 #define DEATH "%5ld %2d died\n"
 
-long	state_log(t_state state, t_philo *philo)
+size_t	state_log(t_state state, t_philo *philo)
 {
 	int		id;
-	long	current;
-	long	elapsed;
+	size_t	current;
+	size_t	elapsed;
 
 	id = philo->id;
 	pthread_mutex_lock(&philo->common->log);
@@ -42,7 +42,7 @@ long	state_log(t_state state, t_philo *philo)
 	return (current);
 }
 
-long	get_current_time(void)
+size_t	get_current_time(void)
 {
 	struct timeval	tp;
 

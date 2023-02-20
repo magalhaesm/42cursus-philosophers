@@ -5,7 +5,7 @@
 NAME    := philo
 INCLUDE := philo.h
 OBJ_DIR := obj
-SOURCES := main.c parse.c control.c actions.c log.c monitor.c
+SOURCES := main.c parse.c control.c actions.c utils.c monitor.c
 OBJECTS := $(addprefix $(OBJ_DIR)/, $(SOURCES:.c=.o))
 CFLAGS  := -Wall -Werror -Wextra -g
 LDFLAGS := -lpthread

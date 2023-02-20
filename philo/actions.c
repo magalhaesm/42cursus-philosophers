@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 15:30:30 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/17 13:38:48 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/18 16:08:14 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	eating(t_philo *philo)
 {
-	long	last;
+	size_t	last;
 
 	pthread_mutex_lock(&philo->first_fork->mutex);
 	pthread_mutex_lock(&philo->second_fork->mutex);
@@ -54,9 +54,9 @@ void	thinking(t_philo *philo)
 	return ;
 }
 
-void	mssleep(long ms_time)
+void	mssleep(size_t ms_time)
 {
-	long	start;
+	size_t	start;
 
 	start = get_current_time();
 	while (ms_time > get_current_time() - start)
