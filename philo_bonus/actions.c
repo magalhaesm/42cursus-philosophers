@@ -6,13 +6,11 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 15:30:30 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/19 22:39:33 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:35:05 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-#define DELAY 100
 
 void	eating(t_philo *philo)
 {
@@ -52,13 +50,4 @@ void	thinking(t_philo *philo)
 		return ;
 	state_log(THINKING, philo);
 	return ;
-}
-
-void	mssleep(size_t ms_time)
-{
-	size_t	start;
-
-	start = get_current_time();
-	while (ms_time > get_current_time() - start)
-		usleep(DELAY);
 }

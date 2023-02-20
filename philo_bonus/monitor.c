@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 11:32:27 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/20 10:14:51 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/20 11:38:26 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_bool	stop_dinner(t_philo *philo)
 
 	common = philo->common;
 	sem_wait(common->notify);
-	if (*(long *)common->stop)
+	if (*(int *)common->stop)
 	{
 		sem_post(common->notify);
 		return (TRUE);
@@ -49,7 +49,7 @@ static void	notify_death(t_philo *philo)
 	display = TRUE;
 	common = philo->common;
 	sem_wait(common->notify);
-	if (*(long *)common->stop)
+	if (*(int *)common->stop)
 		display = FALSE;
 	sem_post(common->stop);
 	sem_post(common->notify);

@@ -6,12 +6,13 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 16:55:26 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/20 10:30:57 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:34:45 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+#define DELAY 100
 #define FORK "%5ld %2d has taken a fork\n"
 #define EAT "%5ld %2d is eating\n"
 #define SLEEP "%5ld %2d is sleeping\n"
@@ -42,7 +43,16 @@ size_t	state_log(t_state state, t_philo *philo)
 	return (current);
 }
 
-long	get_current_time(void)
+void	mssleep(size_t ms_time)
+{
+	size_t	start;
+
+	start = get_current_time();
+	while (ms_time > get_current_time() - start)
+		usleep(DELAY);
+}
+
+size_t	get_current_time(void)
 {
 	struct timeval	tp;
 

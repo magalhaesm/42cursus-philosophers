@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:07:54 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/20 10:31:27 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/20 11:00:07 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	sem_free(t_philo *philo)
 {
 	sem_clean();
 	sem_close(philo->common->notify);
+	sem_close(philo->common->log);
 	sem_close(philo->common->eat);
 	sem_close(philo->common->stop);
 	sem_close(philo->common->forks);

@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:44:10 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/20 10:30:39 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/20 11:25:57 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef enum e_bool {
 }	t_bool;
 
 typedef struct s_ctrl {
-	long	start_time;
+	size_t	start_time;
 	int		n_philos;
 	int		time_to_die;
 	int		time_to_eat;
@@ -64,7 +64,7 @@ typedef struct s_philo {
 }	t_philo;
 
 int		*parse(int argc, char **argv);
-long	get_current_time(void);
+size_t	get_current_time(void);
 t_bool	init_common_data(int argc, char **argv, t_ctrl *common);
 sem_t	*init_forks(t_ctrl *common);
 void	sem_free(t_philo *philo);
