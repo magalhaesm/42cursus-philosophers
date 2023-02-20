@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 16:55:26 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/20 10:13:07 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/20 10:30:57 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ size_t	state_log(t_state state, t_philo *philo)
 	size_t	elapsed;
 
 	id = philo->id;
+	sem_wait(philo->common->log);
 	current = get_current_time();
 	elapsed = current - philo->common->start_time;
 	if (state == EATING)
@@ -37,6 +38,7 @@ size_t	state_log(t_state state, t_philo *philo)
 		printf(THINK, elapsed, id);
 	else if (state == DEAD)
 		printf(DEATH, elapsed, id);
+	sem_post(philo->common->log);
 	return (current);
 }
 

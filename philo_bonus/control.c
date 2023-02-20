@@ -6,13 +6,14 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:07:54 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/20 10:15:31 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/20 10:31:27 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 #define SEM_NOTIFY "/sem_notify"
+#define SEM_LOG "/sem_log"
 #define SEM_EAT "/sem_eat"
 #define SEM_STOP "/sem_stop"
 
@@ -35,6 +36,7 @@ t_bool	init_common_data(int argc, char **argv, t_ctrl *common)
 	if (argc == 6)
 		common->must_eat = args[4];
 	common->notify = sem_open(SEM_NOTIFY, O_CREAT, 0644, 1);
+	common->log = sem_open(SEM_LOG, O_CREAT, 0644, 1);
 	common->eat = sem_open(SEM_EAT, O_CREAT, 0644, 1);
 	common->stop = sem_open(SEM_STOP, O_CREAT, 0644, 0);
 	common->forks = sem_open(SEM_FORKS, O_CREAT, 0644, common->n_philos);
@@ -90,6 +92,7 @@ void	sem_free(t_philo *philo)
 void	sem_clean(void)
 {
 	sem_unlink(SEM_NOTIFY);
+	sem_unlink(SEM_LOG);
 	sem_unlink(SEM_EAT);
 	sem_unlink(SEM_STOP);
 	sem_unlink(SEM_FORKS);

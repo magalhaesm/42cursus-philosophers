@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:44:10 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/20 10:15:17 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/20 10:30:39 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_ctrl {
 	int		time_to_sleep;
 	int		must_eat;
 	sem_t	*notify;
+	sem_t	*log;
 	sem_t	*eat;
 	sem_t	*forks;
 	sem_t	*stop;
