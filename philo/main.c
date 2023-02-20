@@ -6,7 +6,7 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 17:06:41 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/17 14:13:45 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/02/20 10:54:25 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	*philosopher(void *arg);
 static void	*set_stuffed(t_ctrl *common);
-static void	start_simulation(t_ctrl *common, t_philo *place);
+static void	start_dinner(t_ctrl *common, t_philo *place);
 
 int	main(int argc, char **argv)
 {
@@ -30,14 +30,14 @@ int	main(int argc, char **argv)
 	philos = init_philosophers(&common, forks);
 	if (philos)
 	{
-		start_simulation(&common, philos);
+		start_dinner(&common, philos);
 		free(philos);
 	}
 	free_forks(forks);
 	return (common.death);
 }
 
-static void	start_simulation(t_ctrl *common, t_philo *place)
+static void	start_dinner(t_ctrl *common, t_philo *place)
 {
 	int			n;
 	int			philos;
