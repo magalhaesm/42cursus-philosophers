@@ -6,18 +6,18 @@
 /*   By: mdias-ma <mdias-ma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 15:23:35 by mdias-ma          #+#    #+#             */
-/*   Updated: 2023/02/20 10:47:13 by mdias-ma         ###   ########.fr       */
+/*   Updated: 2023/04/10 16:14:05 by mdias-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 #define DELAY 100
-#define FORK "%5ld %2d has taken a fork\n"
-#define EAT "%5ld %2d is eating\n"
-#define SLEEP "%5ld %2d is sleeping\n"
-#define THINK "%5ld %2d is thinking\n"
-#define DEATH "%5ld %2d died\n"
+#define FORK "%5ld %2d has taken a fork ⚡️\n"
+#define EAT "%5ld %2d is eating 🍲\n"
+#define SLEEP "%5ld %2d is sleeping 💤\n"
+#define THINK "%5ld %2d is thinking 🤔\n"
+#define DEATH "%5ld %2d died 💀\n"
 
 size_t	state_log(t_state state, t_philo *philo)
 {

@@ -24,7 +24,7 @@ $(OBJ_DIR):
 
 .PHONY: check
 check: all
-	valgrind --tool=helgrind ./$(NAME) 4 310 200 100
+	valgrind --tool=helgrind ./$(NAME) 5 800 200 200 5
 
 .PHONY: clean
 clean:
